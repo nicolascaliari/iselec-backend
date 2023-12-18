@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { category } from 'src/schemas/category.schema';
-import { CreateCategoryDto } from 'src/dto/category/create-category.dto';
-import { UpdateCategoryDto } from 'src/dto/category/update-category.dto'
+import { category } from 'src/category/schemas/category.schema';
+import { CreateCategoryDto } from 'src/category/dto/create-category.dto';
+import { UpdateCategoryDto } from 'src/category/dto/update-category.dto'
 
 @Injectable()
 export class CategoryService {
     constructor(@InjectModel(category.name) private categoryModel: Model<category>) { }
 
     async findAll() {
-        return this.categoryModel.find();
+        return this.categoryModel.find().exec();
     }
 
 

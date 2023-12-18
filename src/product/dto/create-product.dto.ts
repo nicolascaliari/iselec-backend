@@ -1,7 +1,6 @@
 import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateProductDto {
-
     @IsString()
     @IsNotEmpty()
     name: string;
@@ -14,11 +13,13 @@ export class CreateProductDto {
     @IsNotEmpty()
     price: number;
 
-    @IsNumber()
+    @IsString() // Corregido a IsString
     @IsNotEmpty()
     color: string;
 
     @IsNumber()
     @IsNotEmpty()
     idCategory: number;
+
+    file: Express.Multer.File;
 }

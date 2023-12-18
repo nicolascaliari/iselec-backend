@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ProductModule } from './product.module';
 import { InjectModel } from '@nestjs/mongoose';
-import { product } from 'src/schemas/product.schema';
+import { product } from 'src/product/schemas/product.schema';
 import { Model } from 'mongoose';
-import { CreateProductDto } from 'src/dto/product/create-product.dto';
+import { CreateProductDto } from 'src/product/dto/create-product.dto';
 
 
 @Injectable()
