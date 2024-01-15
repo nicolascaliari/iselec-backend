@@ -3,6 +3,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductService } from './product.service';
 import { CreateProductDto } from 'src/product/dto/create-product.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { query } from 'express';
 
 @Controller('product')
 export class ProductController {
@@ -11,10 +12,25 @@ export class ProductController {
         private readonly cloudinaryService: CloudinaryService
     ) { }
 
-    @Get()
+
+    @Get('products')
     async findAll() {
         return this.productService.findAll();
     }
+
+    @Get()
+    async findonE(@Query('id') id: string) {
+        return await this.productService.findOne(id);
+    }
+
+
+    @Get('products/category')
+    async findProductsByCategory(@Query('idCategory') idcategory : number) {
+        return await this.productService.findProductsByCategory(idcategory);
+    }
+
+
+
 
     @Post('/create')
     @UseInterceptors(FileInterceptor('file'))
@@ -38,8 +54,8 @@ export class ProductController {
         }
     }
 
-    @Delete(':id')
-    async delete(@Param('id') id: number) {
+    @Delete('delete')
+    async delete(@Query('id') id: string) {
         try {
             return await this.productService.delete(id);
         } catch (err) {
@@ -47,8 +63,8 @@ export class ProductController {
         }
     }
 
-    @Put(':id')
-    async update(@Param('id') id: number, @Body() body: CreateProductDto) {
+    @Put('update/:id')
+    async update(@Param('id') id: string, @Body() body: CreateProductDto) {
         try {
             return await this.productService.update(id, body);
         } catch (err) {

@@ -25,12 +25,12 @@ export class CategoryService {
     }
 
 
-    async delete(id: number) {
-        return this.categoryModel.findByIdAndDelete(id);
+    async delete(id: string) {
+        return this.categoryModel.deleteOne({ _id: id }).lean();
     }
 
 
-    async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-        return this.categoryModel.findByIdAndUpdate(id, updateCategoryDto);
+    async update(id: string, updateCategoryDto: UpdateCategoryDto) {
+        return this.categoryModel.updateOne({ _id: id }, updateCategoryDto);
     }
 }

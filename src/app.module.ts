@@ -1,14 +1,35 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CategoryModule } from './category/category.module';
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 import { ProductModule } from './product/product.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { AuthModule } from './auth/auth.module';
+import { AuthController } from './auth/auth.controller';
+import { UserModule } from './user/user.module';
+
 
 @Module({
-  imports: [ProductModule, ConfigModule.forRoot({ isGlobal: true }), CategoryModule, MongooseModule.forRoot('mongodb+srv://nicolascaliari28:iselec450@cluster0.xhcenwi.mongodb.net/iselec?retryWrites=true&w=majority'), CloudinaryModule
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+    }),
+    AuthModule,
+    ProductModule,
+    UserModule,
+    CategoryModule,
+    MongooseModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('DATABASE'),
+      }),
+    }),
+    
+    CloudinaryModule
+  
   ],
-  controllers: [],
+  controllers: [AuthController],
   providers: [],
 })
 export class AppModule { }

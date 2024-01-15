@@ -10,7 +10,7 @@ export class CloudinaryService {
         return new Promise<CloudinaryResponse>((resolve, reject) => {
             const uploadStream = cloudinary.uploader.upload_stream(
                 {
-                    public_id: publicId, // Aquí especifica el nombre deseado de la imagen
+                    public_id: publicId,
                 },
                 (error, result) => {
                     if (error) return reject(error);

@@ -10,14 +10,12 @@ export class category {
     @Prop({
         required: true,
         trim: true,
-        unique: true
     })
     idCategory: number;
 
     @Prop({
         required: true,
         trim: true,
-        unique: true
     })
     name: string;
 }
