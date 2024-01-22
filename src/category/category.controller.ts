@@ -1,11 +1,16 @@
-import { Controller, Get, Post, Delete, Put, Body, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Put, Body, Param, Query, UseInterceptors, UploadedFile, ParseFilePipe } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from 'src/category/dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Controller('category')
 export class CategoryController {
-    constructor(private categoryService: CategoryService) { }
+    constructor(
+        private categoryService: CategoryService,
+        private readonly cloudinaryService: CloudinaryService
+        ) { }
 
     @Get()
     async findAll(): Promise<any> {
@@ -23,11 +28,22 @@ export class CategoryController {
 
     }
 
-    @Post('create')
-    async create(@Body() body: CreateCategoryDto) {
+    @Post('/create')
+    @UseInterceptors(FileInterceptor('file'))
+    async create(
+        @UploadedFile(
+            new ParseFilePipe({
+                validators: [
+                ],
+            })
+        ) file: Express.Multer.File,
+        @Body() body: CreateCategoryDto) {
         try {
 
-            console.log(JSON.stringify(body));
+            const desiredFileName = body.name;
+            const uploadedImage = await this.cloudinaryService.uploadFile(file, desiredFileName);
+
+            body.file = uploadedImage.url;
             return await this.categoryService.create(body);
         } catch (err) {
             console.error(err);
@@ -35,14 +51,32 @@ export class CategoryController {
     }
 
 
-    @Delete('delete')
-    async delete(@Query('id') id: string) {
+    @Delete('delete/:id')
+    async delete(@Param('id') id: string) {
         return await this.categoryService.delete(id);
     }
 
-    @Put('update')
-    async update(@Query('id') id: string, @Body() body: UpdateCategoryDto) {
+    @Put('update/:id')
+    async update(@Param('id') id: string, @Body() body: UpdateCategoryDto) {
         return await this.categoryService.update(id, body);
     }
+
+
+
+    @Post('upload')
+    @UseInterceptors(FileInterceptor('file'))
+    uploadImage(
+        @UploadedFile(
+            new ParseFilePipe({
+                validators: [
+                ],
+            })
+        ) file: Express.Multer.File
+    ) {
+        console.log(file)
+        const desiredFileName = 'elpepe';
+        return this.cloudinaryService.uploadFile(file, desiredFileName);
+    }
+
 
 }

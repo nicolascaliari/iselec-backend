@@ -15,17 +15,21 @@ export class ProductController {
 
     @Get('products')
     async findAll() {
-        return this.productService.findAll();
+        return this.productService.findAll()
     }
 
-    @Get()
-    async findonE(@Query('id') id: string) {
+    @Get('products/:id')
+    async findOne(@Param('id') id: string) {
+        console.log("id" + id)
         return await this.productService.findOne(id);
     }
 
 
-    @Get('products/category')
-    async findProductsByCategory(@Query('idCategory') idcategory : number) {
+    @Get('products/category/:idCategory')
+    async findProductsByCategory(@Param('idCategory') idcategory : string) {
+
+        console.log("productos x category" + idcategory)
+
         return await this.productService.findProductsByCategory(idcategory);
     }
 
@@ -44,6 +48,7 @@ export class ProductController {
         @Body() body: CreateProductDto
     ) {
         try {
+            console.log(body)
             const desiredFileName = body.name;
             const uploadedImage = await this.cloudinaryService.uploadFile(file, desiredFileName);
 
@@ -54,8 +59,8 @@ export class ProductController {
         }
     }
 
-    @Delete('delete')
-    async delete(@Query('id') id: string) {
+    @Delete('delete/:id')
+    async delete(@Param('id') id: string) {
         try {
             return await this.productService.delete(id);
         } catch (err) {
@@ -66,6 +71,8 @@ export class ProductController {
     @Put('update/:id')
     async update(@Param('id') id: string, @Body() body: CreateProductDto) {
         try {
+            console.log(body);
+            console.log(id);
             return await this.productService.update(id, body);
         } catch (err) {
             console.error(err);
@@ -83,6 +90,7 @@ export class ProductController {
             })
         ) file: Express.Multer.File
     ) {
+        console.log(file)
         const desiredFileName = 'elpepe';
         return this.cloudinaryService.uploadFile(file, desiredFileName);
     }

@@ -11,13 +11,15 @@ export class category {
         required: true,
         trim: true,
     })
-    idCategory: number;
+    name: string;
+
+
 
     @Prop({
         required: true,
         trim: true,
     })
-    name: string;
+    file: string;
 }
 
 export const categorySchema = SchemaFactory.createForClass(category);

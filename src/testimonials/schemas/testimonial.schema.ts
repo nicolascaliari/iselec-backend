@@ -1,9 +1,24 @@
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
 
+
 @Schema({
     timestamps: true
-})
-export class Product {
+})  
+
+export class Testimonial {
+
+    @Prop({
+        required: true,
+        trim: true,
+    })
+    message: string;
+
+    @Prop({
+        required: true,
+        trim: true,
+    })
+    numberStars: number;
+
     @Prop({
         required: true,
         trim: true,
@@ -11,29 +26,10 @@ export class Product {
     name: string;
 
     @Prop({
-        required: true,
-        trim: true,
-        index: false
-    })
-    description: string;
-
-    @Prop({
-        required: true,
+        required: false,
         trim: true,
     })
-    price: number;
-
-    @Prop({
-        required: true,
-        trim: true,
-    })
-    idCategory: string;
-
-    @Prop({
-        required: true,
-        trim: true,
-    })
-    file: string;
+    answer: string;
 }
 
-export const ProductSchema = SchemaFactory.createForClass(Product);
+export const TestimonialSchema = SchemaFactory.createForClass(Testimonial);

@@ -9,6 +9,11 @@ const bodyParser = require('body-parser');
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
   // Configurar el body-parser
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));

@@ -2,13 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { ProductModule } from './product.module';
 import { InjectModel } from '@nestjs/mongoose';
 import { Product } from 'src/product/schemas/product.schema';
+import { category } from 'src/category/schemas/category.schema';
 import { Model } from 'mongoose';
 import { CreateProductDto } from 'src/product/dto/create-product.dto';
 
 
 @Injectable()
 export class ProductService {
-    constructor(@InjectModel(Product.name) private Productmodel: Model<Product>) { }
+    constructor(
+        @InjectModel(Product.name) private Productmodel: Model<Product>,
+        @InjectModel(category.name) private CategoryModel : Model<category>
+        ) { }
 
     async findAll() {
         return this.Productmodel.find();
@@ -16,13 +20,20 @@ export class ProductService {
 
 
     async findOne(id: string) {
-        return await this.Productmodel.findById(id);
+        const products = await this.Productmodel.findById(id);
+    
+        console.log("product" + products)
+        return products;
     }
 
-    async findProductsByCategory(idCategory : number) {
+    async findProductsByCategory(idCategory : string) {
 
-        console.log(idCategory)
-        return await this.Productmodel.find({idCategory : idCategory});
+        const category = await this.CategoryModel.findById(idCategory);
+
+        const id = category._id;
+
+       // console.log("productos x category" + idCategory)
+        return await this.Productmodel.find({idCategory : id});
     }
 
 

@@ -7,6 +7,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
 import { UserModule } from './user/user.module';
+import { TestimonialsModule } from './testimonials/testimonials.module';
 
 
 @Module({
@@ -26,7 +27,9 @@ import { UserModule } from './user/user.module';
       }),
     }),
     
-    CloudinaryModule
+    CloudinaryModule,
+    
+    TestimonialsModule
   
   ],
   controllers: [AuthController],
