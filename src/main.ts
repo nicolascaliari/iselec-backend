@@ -11,7 +11,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin: 'http://iselec-backend-production.up.railway.app',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
     allowedHeaders: '*',
   });
