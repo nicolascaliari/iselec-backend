@@ -10,9 +10,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
 
   app.enableCors({
-    origin: "http://iselec-backend-production.up.railway.app",
+    origin: "http://localhost:3000",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
     credentials: true,
+    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
   });
 
   // Configurar el body-parser
