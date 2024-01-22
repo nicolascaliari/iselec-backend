@@ -14,19 +14,19 @@ export class TestimonialsController {
     }
 
 
-    @Post('/create')
+    @Post('')
     async create(@Body() testimonial: CreateTestimonialDto) {
         return await this.testimonialService.create(testimonial);
     }
 
 
-    @Put('/update/:id')
+    @Put(':id')
     async update(@Param('id') id: string, @Body() testimonial: UpdateTestimonialDto) {
         return await this.testimonialService.update(id, testimonial);
     }
 
 
-    @Delete('/delete/:id')
+    @Delete(':id')
     async delete(@Param('id') id: string) {
         try {
             return await this.testimonialService.delete(id);
