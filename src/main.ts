@@ -7,7 +7,7 @@ import { ConfigService } from '@nestjs/config';
 const bodyParser = require('body-parser');
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
 
   app.enableCors({
     origin: '*',
@@ -15,7 +15,7 @@ async function bootstrap() {
     credentials: true,
     allowedHeaders: '*',
   });
-  
+
   // Configurar el body-parser
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
