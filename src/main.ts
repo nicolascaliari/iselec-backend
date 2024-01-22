@@ -13,7 +13,9 @@ async function bootstrap() {
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
+    allowedHeaders: '*',
   });
+  
   // Configurar el body-parser
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
