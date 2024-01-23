@@ -26,7 +26,7 @@ export class ProductController {
 
 
     @Get('products/category/:idCategory')
-    async findProductsByCategory(@Param('idCategory') idcategory : string) {
+    async findProductsByCategory(@Param('idCategory') idcategory: string) {
 
         console.log("productos x category" + idcategory)
 
@@ -62,7 +62,12 @@ export class ProductController {
     @Delete('delete/:id')
     async delete(@Param('id') id: string) {
         try {
-            return await this.productService.delete(id);
+
+            const product = await this.productService.findOne(id);
+
+            console.log(product.name)
+           await this.cloudinaryService.deleteImageByPublicId(product.name);
+           return await this.productService.delete(id);
         } catch (err) {
             console.error(err);
         }
@@ -85,7 +90,6 @@ export class ProductController {
         @UploadedFile(
             new ParseFilePipe({
                 validators: [
-                    // Your file validators here
                 ],
             })
         ) file: Express.Multer.File
