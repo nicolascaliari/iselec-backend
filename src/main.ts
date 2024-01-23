@@ -13,14 +13,13 @@ async function bootstrap() {
 
 
   const corsOptions = {
-    origin: '*', 
+    origin: 'http://localhost:3001', 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
     credentials: true, 
     optionsSuccessStatus: 204,
 };
 
   app.enableCors(corsOptions);
-
   app.useGlobalPipes(new ValidationPipe());
 
 

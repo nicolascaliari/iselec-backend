@@ -10,7 +10,7 @@ export class CategoryController {
     constructor(
         private categoryService: CategoryService,
         private readonly cloudinaryService: CloudinaryService
-        ) { }
+    ) { }
 
     @Get()
     async findAll(): Promise<any> {
@@ -53,10 +53,16 @@ export class CategoryController {
 
     @Delete('delete/:id')
     async delete(@Param('id') id: string) {
-        return await this.categoryService.delete(id);
+        try {
+            return await this.categoryService.delete(id);
+
+        } catch (err) {
+            console.error(err);
+        }
+
     }
 
-    @Put('update/:id')
+    @Put('/update/:id')
     async update(@Param('id') id: string, @Body() body: UpdateCategoryDto) {
         return await this.categoryService.update(id, body);
     }
