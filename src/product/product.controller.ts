@@ -3,7 +3,9 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductService } from './product.service';
 import { CreateProductDto } from 'src/product/dto/create-product.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
-import { query } from 'express';
+import { v4 as uuidv4 } from 'uuid';
+
+
 
 @Controller('product')
 export class ProductController {
@@ -49,25 +51,29 @@ export class ProductController {
     ) {
         try {
             console.log(body)
-            const desiredFileName = body.name;
+            const id = uuidv4(); 
+
+            const desiredFileName = id;
+            // const desiredFileName = body.name;
             const uploadedImage = await this.cloudinaryService.uploadFile(file, desiredFileName);
 
             body.file = uploadedImage.url;
+            body.id = id;
             return await this.productService.create(body);
         } catch (err) {
             console.error(err);
         }
     }
 
-    @Delete('delete/:id')
-    async delete(@Param('id') id: string) {
+    @Delete('delete/:id/:_id')
+    async delete(@Param('id') id: string, @Param('_id') _id: string) {
         try {
-
-            const product = await this.productService.findOne(id);
-
-            console.log(product.name)
-           await this.cloudinaryService.deleteImageByPublicId(product.name);
-           return await this.productService.delete(id);
+            const product = await this.productService.findOne(_id);
+            if (!product) {
+                return 'Producto no encontrado';
+            }
+            await this.cloudinaryService.deleteImageByPublicId(id);
+            return await this.productService.delete(_id);
         } catch (err) {
             console.error(err);
         }

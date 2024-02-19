@@ -2,6 +2,7 @@ import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateProductDto {
 
+    id:string;
     name: string;
     description: string;
     price: number;

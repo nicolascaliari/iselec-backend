@@ -29,11 +29,7 @@ export class CloudinaryService {
 
     async deleteImageByPublicId(publicId: string): Promise<void> {
         try {
-            // Utiliza la API de Cloudinary para eliminar la imagen por su public_id
             await cloudinary.uploader.destroy(publicId, { invalidate: true });
-
-            // Nota: `{ invalidate: true }` invalidará la caché de CDN
-            // Ajusta según tus necesidades
         } catch (error) {
             console.error('Error al eliminar la imagen de Cloudinary:', error);
             throw new Error('Error al eliminar la imagen de Cloudinary');
