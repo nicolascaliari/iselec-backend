@@ -22,4 +22,13 @@ export class UserService {
     async findByEmail(email : string) {
         return await this.userModel.findOne({ email : email});
     }
+
+
+    async login(userData): Promise<{ success: boolean; message?: string }> {
+        if (userData.username === 'Iselec.tec' && userData.password === 'Araoz450') {
+          return { success: true };
+        } else {
+          return { success: false, message: 'Credenciales incorrectas' };
+        }
+      }
 }
