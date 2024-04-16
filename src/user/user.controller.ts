@@ -12,13 +12,15 @@ export class UserController {
     }
 
 
-    @Post()
-    async create(@Body() body: CreateUserDto): Promise<CreateUserDto> {
-        return await this.userService.create(body);
-    }
+    // @Post()
+    // async create(@Body() body: CreateUserDto): Promise<CreateUserDto> {
+    //     return await this.userService.create(body);
+    // }
 
-    @Post('login')
+    @Post('/login')
     async login(@Body() userData): Promise<{ success: boolean; message?: string }> {
+        console.log(userData);
+        console.log("Estoy axa");
       return this.userService.login(userData);
     }
 }

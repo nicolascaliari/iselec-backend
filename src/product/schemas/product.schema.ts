@@ -4,12 +4,6 @@ import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
     timestamps: true
 })
 export class Product {
-
-    @Prop({
-        trim: true,
-    })
-    id: string;
-
     @Prop({
         required: true,
         trim: true,

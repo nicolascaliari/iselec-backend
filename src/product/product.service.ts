@@ -21,18 +21,12 @@ export class ProductService {
 
     async findOne(id: string) {
         const products = await this.Productmodel.findById(id);
-    
-        console.log("product" + products)
         return products;
     }
 
     async findProductsByCategory(idCategory : string) {
-
         const category = await this.CategoryModel.findById(idCategory);
-
         const id = category._id;
-
-       // console.log("productos x category" + idCategory)
         return await this.Productmodel.find({idCategory : id});
     }
 
@@ -43,7 +37,7 @@ export class ProductService {
     }
 
 
-    delete(id : string) {
+    async delete(id : string) {
         return this.Productmodel.deleteOne({_id : id}).lean();
     }
 

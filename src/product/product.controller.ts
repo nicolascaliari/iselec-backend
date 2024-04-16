@@ -17,7 +17,7 @@ export class ProductController {
 
     @Get('products')
     async findAll() {
-        return this.productService.findAll()
+        return this.productService.findAll();
     }
 
     @Get('products/:id')
@@ -50,15 +50,10 @@ export class ProductController {
         @Body() body: CreateProductDto
     ) {
         try {
-            console.log(body)
             const id = uuidv4(); 
-
             const desiredFileName = id;
-            // const desiredFileName = body.name;
             const uploadedImage = await this.cloudinaryService.uploadFile(file, desiredFileName);
-
             body.file = uploadedImage.url;
-            body.id = id;
             return await this.productService.create(body);
         } catch (err) {
             console.error(err);
@@ -100,7 +95,6 @@ export class ProductController {
             })
         ) file: Express.Multer.File
     ) {
-        console.log(file)
         const desiredFileName = 'elpepe';
         return this.cloudinaryService.uploadFile(file, desiredFileName);
     }

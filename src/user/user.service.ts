@@ -25,9 +25,14 @@ export class UserService {
 
 
     async login(userData): Promise<{ success: boolean; message?: string }> {
-        if (userData.username === 'Iselec.tec' && userData.password === 'Araoz450') {
+
+      console.log(userData.username)
+      console.log(userData.password)
+
+        if (userData.user === 'Iselec.tec' && userData.password === 'Araoz450') {
           return { success: true };
         } else {
+          console.log("error")
           return { success: false, message: 'Credenciales incorrectas' };
         }
       }
