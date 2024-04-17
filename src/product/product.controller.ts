@@ -50,7 +50,7 @@ export class ProductController {
         @Body() body: CreateProductDto
     ) {
         try {
-            const id = uuidv4(); 
+            const id = uuidv4();
             const desiredFileName = id;
             const uploadedImage = await this.cloudinaryService.uploadFile(file, desiredFileName);
             body.file = uploadedImage.url;
@@ -60,26 +60,46 @@ export class ProductController {
         }
     }
 
+
+    @Put('update/:id')
+    @UseInterceptors(FileInterceptor('file'))
+    async updateWithImage(
+        @Param('id') id: string,
+        @UploadedFile(
+            new ParseFilePipe({
+                validators: [
+                ],
+            })
+        ) file: Express.Multer.File,
+        @Body() body: CreateProductDto
+    ) {
+        try {
+            if (file) {
+                const desiredFileName = id;
+                const uploadedImage = await this.cloudinaryService.uploadFile(file, desiredFileName);
+                body.file = uploadedImage.url;
+            }
+            return await this.productService.update(id, body);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+
+
+
+
     @Delete('delete/:id/:_id')
     async delete(@Param('id') id: string, @Param('_id') _id: string) {
         try {
+            console.log("id" + id)
+            console.log("_id" + _id)
             const product = await this.productService.findOne(_id);
             if (!product) {
                 return 'Producto no encontrado';
             }
             await this.cloudinaryService.deleteImageByPublicId(id);
             return await this.productService.delete(_id);
-        } catch (err) {
-            console.error(err);
-        }
-    }
-
-    @Put('update/:id')
-    async update(@Param('id') id: string, @Body() body: CreateProductDto) {
-        try {
-            console.log(body);
-            console.log(id);
-            return await this.productService.update(id, body);
         } catch (err) {
             console.error(err);
         }
